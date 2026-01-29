@@ -1,0 +1,25 @@
+import { chromium } from "playwright-core";
+
+const TOKEN = "YOUR_API_TOKEN_HERE"; // Replace with your actual token
+
+async function takeScreenshot() {
+  // Connect to Browserless using CDP (recommended method)
+  const browser = await chromium.connectOverCDP(
+    `wss://production-sfo.browserless.io?token=${TOKEN}`
+  );
+
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  // Navigate to the target website
+  await page.goto("https://www.example.com/");
+
+  // Take a screenshot and save it locally
+  await page.screenshot({ path: "screenshot.png" });
+  console.log("Screenshot saved as screenshot.png");
+
+  // Clean up resources
+  await browser.close();
+}
+
+takeScreenshot().catch(console.error);
