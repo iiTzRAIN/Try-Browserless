@@ -21,16 +21,22 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  steps:
+      # 1. Check out the repository so the workflow can access your 'Test' file
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # 2. Setup Node.js (Recommended to ensure 'npm' commands work correctly)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # 3. Install Playwright Core (The step you asked for)
+      - name: Install dependencies
+        run: npm install playwright-core
+
+      # 4. Run your script
+      # Note: Since your file uses 'import', you may need to rename 'Test' to 'Test.mjs' 
+      # or add a package.json with "type": "module" for this to run successfully.
+      - name: Run Test Script
+        run: node Test
