@@ -1,45 +1,33 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-  steps:
-      # 1. Check out the repository so the workflow can access your 'Test' file
+    steps:
+      # 1. Check out the repository
       - uses: actions/checkout@v4
 
-      # 2. Setup Node.js (Recommended to ensure 'npm' commands work correctly)
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 3. Install Playwright Core (The step you asked for)
+      # 3. Install Playwright Core
       - name: Install dependencies
         run: npm install playwright-core
 
       # 4. Run your script
-      # Note: Since your file uses 'import', you may need to rename 'Test' to 'Test.mjs' 
-      # or add a package.json with "type": "module" for this to run successfully.
-    - name: Run Test Script
+      # I updated this to 'Test.mjs' to match your file rename
+      - name: Run Test Script
         env:
-          # This connects the Secret you created in GitHub to the 'process.env' in your code
           BROWSERLESS_TOKEN: ${{ secrets.BROWSERLESS_TOKEN }} 
-        run: node Test
+        run: node Test.mjs
