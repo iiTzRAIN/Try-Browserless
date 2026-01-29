@@ -38,5 +38,8 @@ jobs:
       # 4. Run your script
       # Note: Since your file uses 'import', you may need to rename 'Test' to 'Test.mjs' 
       # or add a package.json with "type": "module" for this to run successfully.
-      - name: Run Test Script
+    - name: Run Test Script
+        env:
+          # This connects the Secret you created in GitHub to the 'process.env' in your code
+          BROWSERLESS_TOKEN: ${{ secrets.BROWSERLESS_TOKEN }} 
         run: node Test
