@@ -1,9 +1,14 @@
 import { chromium } from "playwright-core";
 
-const TOKEN = "YOUR_API_TOKEN_HERE"; // Replace with your actual token
+// Access the token from the environment variables
+const TOKEN = process.env.BROWSERLESS_TOKEN;
+
+if (!TOKEN) {
+  throw new Error("BROWSERLESS_TOKEN is missing. Make sure to set it in your GitHub Secrets and workflow file.");
+}
 
 async function takeScreenshot() {
-  // Connect to Browserless using CDP (recommended method)
+  // Connect to Browserless using CDP
   const browser = await chromium.connectOverCDP(
     `wss://production-sfo.browserless.io?token=${TOKEN}`
   );
